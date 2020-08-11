@@ -1,0 +1,4 @@
+BPM = 202
+offset = .17
+4/4
+Load Delay = .64
