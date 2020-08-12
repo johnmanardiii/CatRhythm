@@ -21,6 +21,8 @@ public class BeatCircle : MonoBehaviour
 
     void OnReset()
     {
+		// honestly, almost all things should have this, So I will probably make it an interface that 
+		// is required by all objects subscribed to Conductor.
         lastbeat = 0f;
     }
 
