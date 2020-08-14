@@ -461,6 +461,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527977317}
   m_CullTransparentMesh: 0
+--- !u!1 &1547539113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 521257765538006975, guid: 1a8823bd9ee77e948bda24c06b23f985, type: 3}
+  m_PrefabInstance: {fileID: 3585866122772667013}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1547539114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547539113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfdc6916ee26980438aedb5c268a5561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapFile: {fileID: 4900000, guid: d19d16bb6950a8e438e2c05ab384e5c6, type: 3}
+  blip: {fileID: 8300000, guid: cf926b8d5b712914ca1ece254fcb5758, type: 3}
+  beatOffset: -0.213
+  volume: 1
 --- !u!1 &1863093551
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,7 +669,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8752515095848871724, guid: 1a8823bd9ee77e948bda24c06b23f985, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1a8823bd9ee77e948bda24c06b23f985, type: 3}
 --- !u!1001 &5604269559504343680
 PrefabInstance:
@@ -660,6 +682,10 @@ PrefabInstance:
     - target: {fileID: 5604269558806168534, guid: d4d8593c016a77045a97499fc170ca46, type: 3}
       propertyPath: m_Name
       value: BeatCircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5604269558806168534, guid: d4d8593c016a77045a97499fc170ca46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5604269558806168536, guid: d4d8593c016a77045a97499fc170ca46, type: 3}
       propertyPath: m_LocalPosition.x
@@ -717,6 +743,10 @@ PrefabInstance:
     - target: {fileID: 159652630049772563, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
       propertyPath: m_Name
       value: Conductor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2391274851383421426, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
+      propertyPath: m_Volume
+      value: 0.222
       objectReference: {fileID: 0}
     - target: {fileID: 9015270243061456793, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
       propertyPath: m_LocalPosition.x
