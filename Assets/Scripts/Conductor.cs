@@ -6,6 +6,9 @@ using UnityEngine;
 // maybe a reference to this should be made static to avoid find component calls.
 public class Conductor : MonoBehaviour
 {
+    // made into a static instance because many newly instantiated objects have to reference this,
+    // so a static reference is faster than FindObject.
+    public static Conductor conductorInstance = null;
     
     // Move all of these class attributes to a separate ScriptableObject to be used.
     public event Action resetSong;
@@ -38,6 +41,12 @@ public class Conductor : MonoBehaviour
     {
         // seconds per beat. (duration of beat in seconds.
         crotchet = 1.0f / (bpm / 60.0f);
+        if (conductorInstance)
+        {
+            Destroy(gameObject);
+        }
+        // there can never be more than two conductors in a single scene.
+        conductorInstance = this;
     }
 
     public float GetMeasurePosition()
@@ -51,6 +60,7 @@ public class Conductor : MonoBehaviour
 
     private void Update()
     {
+        // loop if button has been pressed.
         if (!song.isPlaying && songStarted)
         {
             PlaySong();
@@ -71,6 +81,9 @@ public class Conductor : MonoBehaviour
     public void PlaySong()
     {
         songStarted = true;
+        songPosition = -1f;
+        // need to stop coroutine from updating the time, resulting in a bug that caused time to not reset.
+        StopSong();
         resetSong?.Invoke();
         double expectedDsp = AudioSettings.dspTime + loadDelay;
         song.PlayScheduled(expectedDsp);

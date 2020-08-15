@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(NoteSpawner))]
 public class BeatMap : MonoBehaviour
 {
 	[SerializeField] TextAsset beatMapFile = null;
@@ -12,11 +13,18 @@ public class BeatMap : MonoBehaviour
 	[SerializeField] float beatOffset = 0.0f;
 	[Range(0.0f, 1.0f)] [SerializeField] private float volume = 1.0f;
 
+	private NoteSpawner noteSpawner;
+	// spawning is based on time proximity, not note proximity to ensure constant speed.
+	// smaller value = faster notes, larger value = slower notes.
+	// can later add speed modifier to make the game more customizable.
+	[SerializeField] private float timeAheadOfSpawn = .8f;
+
 	private void Start()
 	{
 		InitializeBeatTimes();
-		conductor = FindObjectOfType<Conductor>();
+		conductor = Conductor.conductorInstance;
 		conductor.resetSong += OnReset;
+		noteSpawner = GetComponent<NoteSpawner>();
 	}
 
 	private void Update()
@@ -26,9 +34,14 @@ public class BeatMap : MonoBehaviour
 		// how to calculate the position of a note based on where it should be at a certain time
 		// and move it forward out of the screen at the same velocity? (Vector3.Lerp)
 		// basically, an equation relating the motion of the note to the position of the song.
-		if (lastBeatIndex < beatTimes.Length && conductor.SongPosition > beatTimes[lastBeatIndex])
+		
+		// this class will tell NoteSpawner to spawn each note when it is within the time to be spawned.
+		// conductor needs to be able to start at a negative time relative to the actual song position to allow
+		// notes to be placed earlier in relation to the timeAheadOfSpawn variable.
+		if (lastBeatIndex < beatTimes.Length &&
+		    conductor.SongPosition + timeAheadOfSpawn > (beatTimes[lastBeatIndex]))
 		{
-			AudioSource.PlayClipAtPoint(blip, transform.position, volume);
+			noteSpawner.SpawnNote(beatTimes[lastBeatIndex]);
 			lastBeatIndex++;
 		}
 	}
@@ -44,9 +57,9 @@ public class BeatMap : MonoBehaviour
 		string[] times = timesText.Split(new char[] { ' ', '\t', '\r',
 			'\n'}, StringSplitOptions.RemoveEmptyEntries);
 		beatTimes = new float[times.Length];
-		for(int i = 0; i < times.Length; i++)
+		for(var i = 0; i < times.Length; i++)
 		{
-			beatTimes[i] = ((float)Int64.Parse(times[i]) / 1000.0f) + beatOffset;
+			beatTimes[i] = (Int64.Parse(times[i]) / 1000.0f) + beatOffset;
 		}
 	}
 }

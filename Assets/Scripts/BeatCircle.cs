@@ -14,7 +14,7 @@ public class BeatCircle : MonoBehaviour
 
     void Start()
     {
-        conductor = FindObjectOfType<Conductor>();
+        conductor = Conductor.conductorInstance;
         conductor.resetSong += OnReset;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -24,6 +24,7 @@ public class BeatCircle : MonoBehaviour
 		// honestly, almost all things should have this, So I will probably make it an interface that 
 		// is required by all objects subscribed to Conductor.
         lastbeat = 0f;
+        // probably play the destroy animation from here on the circle.
     }
 
     private void OnDestroy()
