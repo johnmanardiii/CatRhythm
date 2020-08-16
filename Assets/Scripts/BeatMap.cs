@@ -17,7 +17,7 @@ public class BeatMap : MonoBehaviour
 	// spawning is based on time proximity, not note proximity to ensure constant speed.
 	// smaller value = faster notes, larger value = slower notes.
 	// can later add speed modifier to make the game more customizable.
-	[SerializeField] private float timeAheadOfSpawn = .8f;
+	[SerializeField] private float timeAheadOfSpawn = 1.0f;
 
 	private void Start()
 	{
@@ -25,6 +25,7 @@ public class BeatMap : MonoBehaviour
 		conductor = Conductor.conductorInstance;
 		conductor.resetSong += OnReset;
 		noteSpawner = GetComponent<NoteSpawner>();
+		noteSpawner.SetStartUpTime(timeAheadOfSpawn);
 	}
 
 	private void Update()
@@ -39,7 +40,7 @@ public class BeatMap : MonoBehaviour
 		// conductor needs to be able to start at a negative time relative to the actual song position to allow
 		// notes to be placed earlier in relation to the timeAheadOfSpawn variable.
 		if (lastBeatIndex < beatTimes.Length &&
-		    conductor.SongPosition + timeAheadOfSpawn > (beatTimes[lastBeatIndex]))
+		    conductor.SongPosition + timeAheadOfSpawn > beatTimes[lastBeatIndex])
 		{
 			noteSpawner.SpawnNote(beatTimes[lastBeatIndex]);
 			lastBeatIndex++;
