@@ -1,5 +1,4 @@
-1. Get Notes from beatmap playing at appropriate times
-2. Get Notes spawning and having their positions mapped to song position
+- Get notes moving past the time they are supposed to be hit.
 3. Get accuracy detection and score
 4. (VERY IMPORTANT)(VERY ANNOYING)Fix pausing bug that causes time to elapse for objects but not AudioSettings as the game runs.
 5. Particle effects for notes that are hit/failed.

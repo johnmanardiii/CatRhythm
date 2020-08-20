@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BeatObjects
+    uniqueID: 2430806893
+    locked: 0

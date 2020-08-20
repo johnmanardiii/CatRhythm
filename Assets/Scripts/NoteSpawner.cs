@@ -9,11 +9,25 @@ using UnityEngine.PlayerLoop;
  */
 public class NoteSpawner : MonoBehaviour
 {
+    
+    public enum HitType
+    {
+        Perfect,
+        Good,
+        Fail,
+    }
+    
     private Conductor conductor;
     private BeatMap beatMap;
     
     // Queue that stores all currently active objects.
     private Queue<NoteObject> noteQueue;
+
+    // very important variables
+    // if it is outside of fail window, then the beat is not registered.
+    [SerializeField] private float perfectWindow = .05f;
+    [SerializeField] private float goodWindow = .1f;
+    [SerializeField] private float failWindow = .22f;
     
     // might want to have beatBar as a child of the noteSpawner or vice versa such that this is automatically
     // intitalized in code. (Less error prone, more customizable maps.)
@@ -36,6 +50,40 @@ public class NoteSpawner : MonoBehaviour
         noteQueue = new Queue<NoteObject>();
     }
 
+    void Update()
+    {
+        // temporarily poll for input here
+        // should be moved to individual class that uses Unity input system to allow remapping and different controls.
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Z))
+        {
+            AttemptNoteDestroy();
+        }
+    }
+
+    public void AttemptNoteDestroy()
+    {
+        // should really consider how the score of the note should be handled and where it should be handled.
+        if (noteQueue.Count == 0)
+        {
+            return;
+        }
+        float timeDistance = Mathf.Abs(noteQueue.Peek().GetHitTime() - (float) conductor.SongPosition);
+        if (timeDistance <= failWindow)
+        {
+            // note has been hit within fail window (result should occur and note should be deleted.
+            HitType noteType = HitType.Fail;
+            if (timeDistance <= perfectWindow)
+            {
+                noteType = HitType.Perfect;
+            }
+            else if (timeDistance <= goodWindow)
+            {
+                noteType = HitType.Good;
+            }
+            NoteDequeue(noteType);
+        }
+    }
+
     public void SetStartUpTime(float noteTravelTime)
     {
         this.startUpTime = noteTravelTime;
@@ -46,10 +94,14 @@ public class NoteSpawner : MonoBehaviour
         return noteQueue.Peek();
     }
 
-    public void NoteDequeue()
+    public void NoteDequeue(HitType type)
     {
         // note: using a queue forces the restriction in NoteObject that notes can only be destroyed in order.
+        // dequeue time will be used in a class that manages the score based on how close the note was it to its
+        // desired time.
+        
         NoteObject note = noteQueue.Dequeue();
+        note.DestroySelf(type);
     }
 
     /**

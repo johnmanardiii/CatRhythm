@@ -11,10 +11,19 @@ public class NoteObject : MonoBehaviour
     private float estimatedLifeExpectancy;
     private NoteSpawner noteSpawnerInstance = null;
 
+    [SerializeField] private GameObject explosionParticles;
+    [SerializeField] private AudioClip perfectSound;
+    [SerializeField] private float perfectSoundVolume = 1.0f;
+
     void Start()
     {
         conductor = Conductor.conductorInstance;
-        conductor.resetSong += DestroySelf;
+        conductor.resetSong += OnReset;
+    }
+
+    public float GetHitTime()
+    {
+        return hitTime;
     }
 
     public void InitializeNote(float arrivalTime, float spawnTimeSpawner, NoteSpawner noteSpawner)
@@ -30,15 +39,23 @@ public class NoteObject : MonoBehaviour
         estimatedLifeExpectancy = (hitTime - spawnTime) * distanceMultiplier;
     }
 
-    public void DestroySelf()
+    public void OnReset()
     {
-        // All particle effects, sounds, death should be handled here.
-        
+        Destroy(gameObject);
+    }
+
+    public void DestroySelf(NoteSpawner.HitType type)
+    {
+        // type to be used for different sound effects.
         // unsubscribe from Action in conductor.
-        conductor.resetSong -= DestroySelf;
-        
+        conductor.resetSong -= OnReset;
         // only spot that notedequeue should be called from.
-        noteSpawnerInstance?.NoteDequeue();
+        // note objects tell the manager objects of their state, including a score object and the queue.
+        Instantiate(explosionParticles, transform.position, Quaternion.identity);
+        if (type == NoteSpawner.HitType.Perfect)
+        {
+            AudioSource.PlayClipAtPoint(perfectSound, transform.position, perfectSoundVolume);
+        }
         Destroy(gameObject);
     }
     
@@ -46,14 +63,13 @@ public class NoteObject : MonoBehaviour
     void Update()
     {
         // this needs to change when Lerp works!!!
-        if (conductor.SongPosition > hitTime)
+        // note, if direction relative to start position and end position changes, this value needs to be inverted.
+        if (gameObject.transform.position.x < noteSpawnerInstance.GetDeathPosition().x)
         {
             // destroy the object, it has reached the end.
-            DestroySelf();
+            noteSpawnerInstance.NoteDequeue(NoteSpawner.HitType.Fail);
         }
         float pct = (float)(conductor.SongPosition - spawnTime) / (hitTime - spawnTime);
-        print("spawn time: " + spawnTime + "song Pos: " + conductor.SongPosition + " hitTime: " + 
-              hitTime + "pct: " + pct);
         gameObject.transform.position = Vector3.LerpUnclamped(noteSpawnerInstance.GetSpawnPosition(),
             noteSpawnerInstance.GetHitPosition(), pct);
     }
