@@ -67,6 +67,7 @@ public class NoteSpawner : MonoBehaviour
         {
             return;
         }
+
         float timeDistance = Mathf.Abs(noteQueue.Peek().GetHitTime() - (float) conductor.SongPosition);
         if (timeDistance <= failWindow)
         {

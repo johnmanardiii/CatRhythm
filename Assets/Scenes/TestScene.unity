@@ -624,11 +624,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfdc6916ee26980438aedb5c268a5561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatMapFile: {fileID: 4900000, guid: d19d16bb6950a8e438e2c05ab384e5c6, type: 3}
+  beatMapFile: {fileID: 4900000, guid: 0ac06e04461cfa74abb7c64c9dc46a6c, type: 3}
   blip: {fileID: 8300000, guid: ea2fe806e22b0d244a56fcc8ab67f756, type: 3}
-  beatOffset: -0.19
+  beatOffset: 0.03
   volume: 1
-  timeAheadOfSpawn: 1.01
+  timeAheadOfSpawn: 2
 --- !u!114 &1547539116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,9 +641,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d13c5021938eae4db734f671375c90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perfectWindow: 0.08
-  goodWindow: 0.15
-  failWindow: 0.22
+  perfectWindow: 0.0795
+  goodWindow: 0.1395
+  failWindow: 0.2
   spawnPosition: {fileID: 758567881}
   hitPosition: {fileID: 1923889190}
   deathPosition: {fileID: 1550020604}
@@ -915,6 +915,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -3.47
       objectReference: {fileID: 0}
+    - target: {fileID: 6177575014527999590, guid: b3a7bb7ccf2cb8a47ba58ca7386e265c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.09
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3a7bb7ccf2cb8a47ba58ca7386e265c, type: 3}
 --- !u!1001 &6615731328169859832
@@ -931,6 +935,14 @@ PrefabInstance:
     - target: {fileID: 2391274851383421426, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
       propertyPath: m_Volume
       value: 0.222
+      objectReference: {fileID: 0}
+    - target: {fileID: 2391274851383421426, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cf8fc9ffb4efe6e42a14da056357caf9, type: 3}
+    - target: {fileID: 6649158753532771199, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
+      propertyPath: offset
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9015270243061456793, guid: 20b1f3cb15053b049bdd38673bd16be7, type: 3}
       propertyPath: m_LocalPosition.x
