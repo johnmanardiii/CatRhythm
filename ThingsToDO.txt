@@ -1,5 +1,2 @@
-- Get notes moving past the time they are supposed to be hit.
 3. Get accuracy detection and score
-4. (VERY IMPORTANT)(VERY ANNOYING)Fix pausing bug that causes time to elapse for objects but not AudioSettings as the game runs.
 5. Particle effects for notes that are hit/failed.
-6. Fix the beat map as the first few notes are slightly out of time. (Might be script bug, but probably not)
